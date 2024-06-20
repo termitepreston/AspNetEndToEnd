@@ -6,4 +6,5 @@ public class Genre
 
     public required string Name { get; set; }
 
+    public required ICollection<GameGenre> GameGenres { get; set; }
 }
