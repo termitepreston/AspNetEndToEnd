@@ -20,7 +20,6 @@ PUT http://localhost:5053/games/3
 Content-Type: application/json
 
 {
-    "title": "Resident Evil 4",
     "genre": "Survival Horror",
     "price": "19.9",
     "releaseDate": "2005-01-11"

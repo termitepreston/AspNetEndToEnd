@@ -1,7 +1,11 @@
+using MinimalApi.Data;
 using MinimalApi.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connString = builder.Configuration.GetConnectionString("GameStore");
+
+builder.Services.AddSqlite<GameStoreContext>(connString);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<GamesInMemoryDb>();
 
