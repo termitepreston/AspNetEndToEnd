@@ -1,0 +1,27 @@
+### Get all games.
+GET http://localhost:5053/games/
+
+### Get a game with id of 2.
+GET http://localhost:5053/games/3
+
+### Create a new game.
+POST http://localhost:5053/games/
+Content-Type: application/json
+
+{
+    "title": "Resident Evil 4",
+    "genre": "Survival Horror",
+    "price": "29.9",
+    "releaseDate": "2005-01-11"
+}
+
+### Update game 3.
+PUT http://localhost:5053/games/3
+Content-Type: application/json
+
+{
+    "title": "Resident Evil 4",
+    "genre": "Survival Horror",
+    "price": "19.9",
+    "releaseDate": "2005-01-11"
+}
