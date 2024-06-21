@@ -1,6 +1,8 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
+using MinimalApi.Data;
 using MinimalApi.Dtos;
+using MinimalApi.Entities;
 
 namespace MinimalApi.Controllers;
 
@@ -13,51 +15,53 @@ namespace MinimalApi.Controllers;
 [ApiController]
 [Produces(MediaTypeNames.Application.Json)]
 [Route("[controller]")]
-public class GamesController(GamesInMemoryDb db) : ControllerBase
+public class GamesController(GameStoreContext dbContext) : ControllerBase
 {
     [HttpGet]
     [Route("{id?}")]
-    public IActionResult Retrieve(int? id) => id is null ? Ok(db.Games) : Ok(db.Games.Find(g => g.Id == id));
+    public IActionResult Retrieve(int? id) => id is null ? Ok(dbContext.Games) : Ok(dbContext.Games.Find(id));
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult Create(CreateGameDto newGame)
     {
-        GameDto game = new(
-                    db.Games.Count + 1,
-                    newGame.Title,
-                    newGame.Genre,
-                    newGame.Price,
-                    newGame.ReleaseDate
-                );
+        var f = dbContext.Genres.Where(genre => newGame.Genres.Any(g => genre.Id == g));
+
+
+        Game game = new()
+        {
+            Title = newGame.Title,
+            Price = newGame.Price,
+            Genres = [.. f],
+            ReleaseDate = newGame.ReleaseDate
+        };
 
 
 
-        db.Games.Add(game);
 
         return CreatedAtAction(nameof(Retrieve), new { id = game.Id }, game);
 
 
     }
 
-    [HttpPut]
-    [Route("{id}")]
-    public IActionResult Update(UpdateGameDto updateGame, int id)
-    {
-        var index = db.Games.FindIndex(game => game.Id == id);
+    // [HttpPut]
+    // [Route("{id}")]
+    // public IActionResult Update(UpdateGameDto updateGame, int id)
+    // {
+    //     var index = dbContext.Games.FindIndex(game => game.Id == id);
 
-        if (index == -1)
-            return NotFound();
+    //     if (index == -1)
+    //         return NotFound();
 
-        db.Games[index] = new(
-            id,
-            updateGame.Title,
-            updateGame.Genre,
-            updateGame.Price,
-            updateGame.ReleaseDate
-        );
+    //     dbContext.Games[index] = new(
+    //         id,
+    //         updateGame.Title,
+    //         updateGame.Genre,
+    //         updateGame.Price,
+    //         updateGame.ReleaseDate
+    //     );
 
-        return NoContent();
-    }
+    //     return NoContent();
+    // }
 }

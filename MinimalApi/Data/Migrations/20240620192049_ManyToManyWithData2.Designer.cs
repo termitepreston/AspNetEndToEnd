@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MinimalApi.Data;
 
@@ -10,9 +11,11 @@ using MinimalApi.Data;
 namespace MinimalApi.Data.Migrations
 {
     [DbContext(typeof(GameStoreContext))]
-    partial class GameStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20240620192049_ManyToManyWithData2")]
+    partial class ManyToManyWithData2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -23,98 +26,19 @@ namespace MinimalApi.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Games");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Price = 60.0m,
-                            ReleaseDate = new DateOnly(2012, 8, 25),
-                            Title = "Hitman: Absolution"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Price = 50.0m,
-                            ReleaseDate = new DateOnly(2015, 5, 19),
-                            Title = "The Witcher 3: Wild Hunt"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Price = 70.0m,
-                            ReleaseDate = new DateOnly(2018, 10, 26),
-                            Title = "Red Dead Redemption 2"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Price = 30.0m,
-                            ReleaseDate = new DateOnly(2013, 9, 17),
-                            Title = "Grand Theft Auto V"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Price = 50.0m,
-                            ReleaseDate = new DateOnly(2018, 10, 5),
-                            Title = "Assassin's Creed Odyssey"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Price = 60.0m,
-                            ReleaseDate = new DateOnly(2020, 12, 10),
-                            Title = "Cyberpunk 2077"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Price = 40.0m,
-                            ReleaseDate = new DateOnly(2016, 4, 12),
-                            Title = "Dark Souls III"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Price = 60.0m,
-                            ReleaseDate = new DateOnly(2021, 5, 7),
-                            Title = "Resident Evil Village"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Price = 60.0m,
-                            ReleaseDate = new DateOnly(2022, 2, 25),
-                            Title = "Elden Ring"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Price = 40.0m,
-                            ReleaseDate = new DateOnly(2017, 2, 28),
-                            Title = "Horizon Zero Dawn"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Price = 40.0m,
-                            ReleaseDate = new DateOnly(2018, 4, 20),
-                            Title = "God of War"
-                        });
                 });
 
             modelBuilder.Entity("MinimalApi.Entities.GameGenre", b =>
@@ -130,88 +54,6 @@ namespace MinimalApi.Data.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("GameGenre");
-
-                    b.HasData(
-                        new
-                        {
-                            GameId = 1,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 1,
-                            GenreId = 42
-                        },
-                        new
-                        {
-                            GameId = 2,
-                            GenreId = 2
-                        },
-                        new
-                        {
-                            GameId = 2,
-                            GenreId = 3
-                        },
-                        new
-                        {
-                            GameId = 3,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 3,
-                            GenreId = 11
-                        },
-                        new
-                        {
-                            GameId = 3,
-                            GenreId = 34
-                        },
-                        new
-                        {
-                            GameId = 4,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 4,
-                            GenreId = 34
-                        },
-                        new
-                        {
-                            GameId = 5,
-                            GenreId = 2
-                        },
-                        new
-                        {
-                            GameId = 6,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 7,
-                            GenreId = 42
-                        },
-                        new
-                        {
-                            GameId = 8,
-                            GenreId = 11
-                        },
-                        new
-                        {
-                            GameId = 9,
-                            GenreId = 40
-                        },
-                        new
-                        {
-                            GameId = 10,
-                            GenreId = 14
-                        },
-                        new
-                        {
-                            GameId = 11,
-                            GenreId = 1
-                        });
                 });
 
             modelBuilder.Entity("MinimalApi.Entities.Genre", b =>
