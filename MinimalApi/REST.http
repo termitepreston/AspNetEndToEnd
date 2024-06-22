@@ -4,6 +4,9 @@ GET http://localhost:5053/games/
 ### Get a game with id of 2.
 GET http://localhost:5053/games/1
 
+### Try to get a game that does not exist.
+GET http://localhost:5053/games/100
+
 ### Create a new game.
 POST http://localhost:5053/games/
 Content-Type: application/json

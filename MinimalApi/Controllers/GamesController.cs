@@ -25,14 +25,28 @@ public class GamesController(GameStoreContext db, IMapper mapper) : ControllerBa
 {
     [HttpGet]
     [Route("{id?}")]
-    public IActionResult Retrieve(int? id)
+    public async Task<IActionResult> Retrieve(int? id)
     {
-        var games = db.Games.Include(game => game.GameGenres).ToList();
+        if (id != null)
+        {
+            var game = await db.Games.Include(game => game.GameGenres).Where(game => game.Id == id).FirstOrDefaultAsync();
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            var gameDto = mapper.Map<GameDto>(game);
+
+            return Ok(gameDto);
+        }
+
+        var games = await db.Games.Include(game => game.GameGenres).ToListAsync();
 
         var gameDtos = mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
 
-        return id is null ? base.Ok(gameDtos) : base.Ok(db.Games.Find(id));
+        return Ok(gameDtos);
     }
 
     [HttpPost]
