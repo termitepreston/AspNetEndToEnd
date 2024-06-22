@@ -1,5 +1,7 @@
+using AutoMapper;
+using MinimalApi.Controllers;
 using MinimalApi.Data;
-using MinimalApi.Dtos;
+using MinimalApi.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,9 @@ var connString = builder.Configuration.GetConnectionString("GameStore");
 builder.Services.AddSqlite<GameStoreContext>(connString);
 builder.Services.AddScoped<GameStoreContext>();
 builder.Services.AddControllers();
-builder.Services.AddSingleton<GamesInMemoryDb>();
+builder.Services.AddAutoMapper(typeof(Program));
+
+
 
 var app = builder.Build();
 
@@ -19,17 +23,16 @@ app.MapControllers();
 app.Run();
 
 
-public class GamesInMemoryDb
+// TODO: clean up Auto mapper configuration and Dtos.
+public class UserProfile : Profile
 {
-    private readonly List<GameDto> _games;
-
-    public GamesInMemoryDb()
+    public UserProfile()
     {
-        _games = [
-            new (1, "FIFA 23", "Sports", 60.00M, new (2023, 5, 12)),
-            new (2, "Hitman: Absolution", "Action Stealth", 40.0M, new(2012, 11, 05))
-        ];
-
+        CreateMap<Game, GameDtoNew>()
+            .ForMember(
+                dest => dest.Genres,
+                opt => opt.MapFrom(
+                    src => src.GameGenres.Select(relation => relation.GenreId))
+                );
     }
-    public List<GameDto> Games { get => _games; }
 }

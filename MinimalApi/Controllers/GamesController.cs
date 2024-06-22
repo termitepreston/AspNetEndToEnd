@@ -1,4 +1,6 @@
 using System.Net.Mime;
+using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinimalApi.Data;
@@ -20,6 +22,8 @@ public class GameDtoNew
     public string? Title { get; set; }
     public decimal Price { get; set; }
     public DateOnly ReleaseDate { get; set; }
+
+    [SourceMember("GameGenres")]
     public IEnumerable<int> Genres { get; set; } = [];
 }
 
@@ -53,22 +57,16 @@ public static class MappingExtensions
 [ApiController]
 [Produces(MediaTypeNames.Application.Json)]
 [Route("[controller]")]
-public class GamesController(GameStoreContext dbContext) : ControllerBase
+public class GamesController(GameStoreContext db, IMapper mapper) : ControllerBase
 {
     [HttpGet]
     [Route("{id?}")]
     public IActionResult Retrieve(int? id)
     {
-        var query = from ga in dbContext.Games
-                    join gg in dbContext.GameGenres
-                        on ga.Id equals gg.GameId
-                    join ge in dbContext.Genres
-                        on gg.GenreId equals ge.Id
-                    select new { ga.Id, ga.Title, Genres = ge.Name, ga.Price, ga.ReleaseDate };
+        var items = db.Games.Include(game => game.GameGenres).ToList().ToDto();
 
-        var items = dbContext.Games.Include(game => game.GameGenres).ToList().ToDto();
 
-        return id is null ? base.Ok(items) : base.Ok(dbContext.Games.Find(id));
+        return id is null ? base.Ok(items) : base.Ok(db.Games.Find(id));
     }
 
     [HttpPost]
@@ -76,7 +74,7 @@ public class GamesController(GameStoreContext dbContext) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult Create(CreateGameDto newGame)
     {
-        var f = dbContext.Genres.Where(genre => newGame.Genres.Any(g => genre.Id == g));
+        var f = db.Genres.Where(genre => newGame.Genres.Any(g => genre.Id == g));
 
 
         Game game = new()
