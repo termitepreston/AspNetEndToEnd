@@ -1,6 +1,5 @@
 using System.Net.Mime;
 using AutoMapper;
-using AutoMapper.Configuration.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MinimalApi.Data;
