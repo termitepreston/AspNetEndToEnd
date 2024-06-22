@@ -129,88 +129,18 @@ namespace MinimalApi.Data.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("GameGenre");
+                    b.ToTable("GameGenres");
 
                     b.HasData(
                         new
                         {
                             GameId = 1,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 1,
-                            GenreId = 42
-                        },
-                        new
-                        {
-                            GameId = 2,
-                            GenreId = 2
-                        },
-                        new
-                        {
-                            GameId = 2,
-                            GenreId = 3
-                        },
-                        new
-                        {
-                            GameId = 3,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 3,
-                            GenreId = 11
-                        },
-                        new
-                        {
-                            GameId = 3,
-                            GenreId = 34
-                        },
-                        new
-                        {
-                            GameId = 4,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 4,
-                            GenreId = 34
-                        },
-                        new
-                        {
-                            GameId = 5,
-                            GenreId = 2
-                        },
-                        new
-                        {
-                            GameId = 6,
-                            GenreId = 1
-                        },
-                        new
-                        {
-                            GameId = 7,
-                            GenreId = 42
-                        },
-                        new
-                        {
-                            GameId = 8,
-                            GenreId = 11
-                        },
-                        new
-                        {
-                            GameId = 9,
-                            GenreId = 40
-                        },
-                        new
-                        {
-                            GameId = 10,
                             GenreId = 14
                         },
                         new
                         {
-                            GameId = 11,
-                            GenreId = 1
+                            GameId = 1,
+                            GenreId = 17
                         });
                 });
 
@@ -242,17 +172,17 @@ namespace MinimalApi.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "Role-playing (RPG)"
+                            Name = "Role-Playing"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Simulation"
+                            Name = "Strategy"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Strategy"
+                            Name = "Simulation"
                         },
                         new
                         {
@@ -277,12 +207,12 @@ namespace MinimalApi.Data.Migrations
                         new
                         {
                             Id = 10,
-                            Name = "First-person shooter (FPS)"
+                            Name = "Horror"
                         },
                         new
                         {
                             Id = 11,
-                            Name = "Third-person shooter (TPS)"
+                            Name = "Music"
                         },
                         new
                         {
@@ -292,182 +222,58 @@ namespace MinimalApi.Data.Migrations
                         new
                         {
                             Id = 13,
-                            Name = "Open world"
+                            Name = "Shooter"
                         },
                         new
                         {
                             Id = 14,
-                            Name = "Sandbox"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Name = "Massively multiplayer online (MMO)"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Name = "MMO RPG (MMORPG)"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Name = "Real-time strategy (RTS)"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Name = "Turn-based strategy (TBS)"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Name = "4X games (explore, expand, exploit, and exterminate)"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Name = "City-building"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Name = "Life simulation"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Name = "Vehicle simulation"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Name = "Point-and-click adventure"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Name = "Text-based adventure"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Name = "Graphic adventure"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Name = "Match-three"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Name = "Physics-based"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Name = "Word games"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Name = "Battle Royale"
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Name = "Auto battler"
-                        },
-                        new
-                        {
-                            Id = 31,
-                            Name = "Art game"
-                        },
-                        new
-                        {
-                            Id = 32,
-                            Name = "Artillery game"
-                        },
-                        new
-                        {
-                            Id = 33,
-                            Name = "Board game or card game"
-                        },
-                        new
-                        {
-                            Id = 34,
-                            Name = "Casual"
-                        },
-                        new
-                        {
-                            Id = 35,
-                            Name = "Educational"
-                        },
-                        new
-                        {
-                            Id = 36,
-                            Name = "Fitness"
-                        },
-                        new
-                        {
-                            Id = 37,
-                            Name = "Music"
-                        },
-                        new
-                        {
-                            Id = 38,
-                            Name = "Social network game"
-                        },
-                        new
-                        {
-                            Id = 39,
-                            Name = "Social simulation game"
-                        },
-                        new
-                        {
-                            Id = 40,
-                            Name = "Souls-like"
-                        },
-                        new
-                        {
-                            Id = 41,
-                            Name = "Space flight simulation"
-                        },
-                        new
-                        {
-                            Id = 42,
                             Name = "Stealth"
                         },
                         new
                         {
-                            Id = 43,
-                            Name = "Serious game"
+                            Id = 15,
+                            Name = "Educational"
                         },
                         new
                         {
-                            Id = 44,
-                            Name = "Shoot 'em up"
+                            Id = 16,
+                            Name = "MMO"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Sandbox"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Visual Novel"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Tactical"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Survival"
                         });
                 });
 
             modelBuilder.Entity("MinimalApi.Entities.GameGenre", b =>
                 {
-                    b.HasOne("MinimalApi.Entities.Game", "Game")
+                    b.HasOne("MinimalApi.Entities.Game", null)
                         .WithMany("GameGenres")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MinimalApi.Entities.Genre", "Genre")
+                    b.HasOne("MinimalApi.Entities.Genre", null)
                         .WithMany("GameGenres")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("MinimalApi.Entities.Game", b =>
