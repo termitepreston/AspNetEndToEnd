@@ -16,42 +16,6 @@ namespace MinimalApi.Controllers;
 */
 
 
-public class GameDtoNew
-{
-    public int Id { get; set; }
-    public string? Title { get; set; }
-    public decimal Price { get; set; }
-    public DateOnly ReleaseDate { get; set; }
-
-    [SourceMember("GameGenres")]
-    public IEnumerable<int> Genres { get; set; } = [];
-}
-
-public static class MappingExtensions
-{
-    public static List<GameDtoNew>? ToDto(this List<Game>? gameEntities)
-    {
-        List<GameDtoNew>? games = [];
-
-        if (gameEntities == null) return [];
-
-        foreach (var ge in gameEntities)
-        {
-            games.Add(
-                new()
-                {
-                    Id = ge.Id,
-                    Title = ge.Title,
-                    Price = ge.Price,
-                    ReleaseDate = ge.ReleaseDate,
-                    Genres = ge.GameGenres.Select(g => g.GenreId),
-                }
-            );
-        }
-
-        return games;
-    }
-}
 
 
 [ApiController]
@@ -63,10 +27,12 @@ public class GamesController(GameStoreContext db, IMapper mapper) : ControllerBa
     [Route("{id?}")]
     public IActionResult Retrieve(int? id)
     {
-        var items = db.Games.Include(game => game.GameGenres).ToList().ToDto();
+        var games = db.Games.Include(game => game.GameGenres).ToList();
+
+        var gameDtos = mapper.Map<IEnumerable<Game>, IEnumerable<GameDto>>(games);
 
 
-        return id is null ? base.Ok(items) : base.Ok(db.Games.Find(id));
+        return id is null ? base.Ok(gameDtos) : base.Ok(db.Games.Find(id));
     }
 
     [HttpPost]

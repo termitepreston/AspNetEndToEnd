@@ -21,18 +21,3 @@ app.MapControllers();
 
 
 app.Run();
-
-
-// TODO: clean up Auto mapper configuration and Dtos.
-public class UserProfile : Profile
-{
-    public UserProfile()
-    {
-        CreateMap<Game, GameDtoNew>()
-            .ForMember(
-                dest => dest.Genres,
-                opt => opt.MapFrom(
-                    src => src.GameGenres.Select(relation => relation.GenreId))
-                );
-    }
-}
