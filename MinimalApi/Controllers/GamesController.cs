@@ -53,22 +53,20 @@ public class GamesController(GameStoreContext db, IMapper mapper) : ControllerBa
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult Create(CreateGameDto newGame)
     {
-        var f = db.Genres.Where(genre => newGame.Genres.Any(g => genre.Id == g));
+        var game = mapper.Map<CreateGameDto, Game>(newGame);
+
+        db.Games.Add(game);
 
 
-        Game game = new()
+        foreach (var gg in newGame.Genres)
         {
-            Title = newGame.Title,
-            Price = newGame.Price,
-            ReleaseDate = newGame.ReleaseDate
-        };
-
-
+            db.GameGenres.Add(
+                new() { GameId = game.Id, GenreId = gg }
+            );
+        }
 
 
         return CreatedAtAction(nameof(Retrieve), new { id = game.Id }, game);
-
-
     }
 
     // [HttpPut]
@@ -89,5 +87,16 @@ public class GamesController(GameStoreContext db, IMapper mapper) : ControllerBa
     //     );
 
     //     return NoContent();
+    // }
+
+
+    // [HttpDelete]
+    // [Route("{id?}")]
+    // public IActionResult Delete(int? id)
+    // {
+    //     if (id == null)
+    //         return BadRequest("Need ID of the deletee");
+
+    //     db.Games.
     // }
 }

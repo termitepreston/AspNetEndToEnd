@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
     "title": "Resident Evil 4",
-    "genre": "Survival Horror",
+    "genres": [10, 20],
     "price": "29.9",
     "releaseDate": "2005-01-11"
 }
