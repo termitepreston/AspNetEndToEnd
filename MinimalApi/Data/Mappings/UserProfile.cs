@@ -14,7 +14,5 @@ public class UserProfile : Profile
                 opt => opt.MapFrom(
                     src => src.GameGenres.Select(relation => relation.GenreId))
                 );
-
-        CreateMap<CreateGameDto, Game>();
     }
 }

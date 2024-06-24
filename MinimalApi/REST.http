@@ -1,8 +1,8 @@
 ### Get all games.
 GET http://localhost:5053/games/
 
-### Get a game with id of 2.
-GET http://localhost:5053/games/1
+### Get a game with a specified Id.
+GET http://localhost:5053/games/15
 
 ### Try to get a game that does not exist.
 GET http://localhost:5053/games/100
@@ -12,18 +12,21 @@ POST http://localhost:5053/games/
 Content-Type: application/json
 
 {
-    "title": "Resident Evil 4",
-    "genres": [10, 20],
-    "price": "29.9",
-    "releaseDate": "2005-01-11"
+    "title": "Medal of Honor: Above and Beyond",
+    "genres": [1, 13],
+    "price": "39.99",
+    "releaseDate": "2020-12-10"
 }
 
-### Update game 3.
-PUT http://localhost:5053/games/3
+### Update a game with a given Id.
+PUT http://localhost:5053/games/15
 Content-Type: application/json
 
 {
-    "genre": "Survival Horror",
-    "price": "19.9",
-    "releaseDate": "2005-01-11"
+    "title": "Genshin Impact",
+    "genres": [1,5],
+    "price": "0.00"
 }
+
+### Given an Id delete a game.
+DELETE http://localhost:5053/games/13

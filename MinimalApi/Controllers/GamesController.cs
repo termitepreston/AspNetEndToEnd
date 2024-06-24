@@ -53,50 +53,73 @@ public class GamesController(GameStoreContext db, IMapper mapper) : ControllerBa
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult Create(CreateGameDto newGame)
     {
-        var game = mapper.Map<CreateGameDto, Game>(newGame);
+        // First track the genres we are interested in.
+        // If the request includes genres that don't exist, ignore them.
 
-        db.Games.Add(game);
+        var requiredGenres = db.Genres
+                                .Where(rg => newGame.Genres.Any(pg => pg == rg.Id));
 
-
-        foreach (var gg in newGame.Genres)
+        var trackedGame = db.Games.Add(new Game()
         {
-            db.GameGenres.Add(
-                new() { GameId = game.Id, GenreId = gg }
-            );
-        }
+            Title = newGame.Title,
+            Genres = [.. requiredGenres],
+            Price = newGame.Price,
+            ReleaseDate = newGame.ReleaseDate
+        });
+
+        db.SaveChanges();
+
+        var game = mapper.Map<GameDto>(trackedGame.Entity);
 
 
         return CreatedAtAction(nameof(Retrieve), new { id = game.Id }, game);
     }
 
-    // [HttpPut]
-    // [Route("{id}")]
-    // public IActionResult Update(UpdateGameDto updateGame, int id)
-    // {
-    //     var index = dbContext.Games.FindIndex(game => game.Id == id);
+    [HttpPut]
+    [Route("{id}")]
+    public async Task<IActionResult> Update(UpdateGameDto updateGame, int id)
+    {
+        var game = await db.Games
+                    .Where(game => game.Id == id)
+                    .Include(game => game.Genres)
+                    .SingleAsync();
 
-    //     if (index == -1)
-    //         return NotFound();
+        if (game == null)
+        {
+            return NotFound();
+        }
 
-    //     dbContext.Games[index] = new(
-    //         id,
-    //         updateGame.Title,
-    //         updateGame.Genre,
-    //         updateGame.Price,
-    //         updateGame.ReleaseDate
-    //     );
+        game.Title = updateGame?.Title ?? game.Title;
+        game.Price = updateGame?.Price ?? game.Price;
+        game.ReleaseDate = updateGame?.ReleaseDate ?? game.ReleaseDate;
 
-    //     return NoContent();
-    // }
+        if (updateGame is not null)
+        {
+            var requestedGenres = await db.Genres
+                                   .Where(gd => updateGame.Genres.Any(gr => gr == gd.Id))
+                                   .ToListAsync();
 
 
-    // [HttpDelete]
-    // [Route("{id?}")]
-    // public IActionResult Delete(int? id)
-    // {
-    //     if (id == null)
-    //         return BadRequest("Need ID of the deletee");
+            game.Genres = requestedGenres;
+        }
 
-    //     db.Games.
-    // }
+
+        await db.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var game = await db.Games.Where(game => game.Id == id).SingleAsync();
+
+        db.Games.Remove(game);
+
+        await db.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
